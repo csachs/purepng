@@ -325,9 +325,16 @@ def peekiter(iterable):
 
     def gen():
         """Generator that returns first and proxy other items from source"""
-        yield one
+        try:
+            yield one
+        except StopIteration:
+            return
+
         while True:
-            yield next(it)
+            try:
+                yield next(it)
+            except StopIteration:
+                break
     return (one, gen())
 
 
